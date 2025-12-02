@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClientWebBooth</title>
+    <link rel="stylesheet" href="index-style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="camera-container" id="app-container">
+        <video id="video" autoplay playsinline muted></video>
+        <img id="overlay-preview" src="" alt="Overlay Preview">
+        <div id="camera-flash"></div>
+        <div id="countdown-display">3</div>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Bottom Controls Bar -->
+    <div class="controls-container">
+        <div class="control-group-left">
+            <button class="icon-btn" onclick="toggleGallery()" title="Gallery" data-title-key="gallery">
+                <i class="fa-regular fa-images"></i>
+            </button>
+            <button class="icon-btn" id="timer-btn" onclick="toggleTimer()" title="Timer: Off" data-title-key="timerOff">
+                <i class="fa-solid fa-stopwatch"></i>
+            </button>
+            <button class="icon-btn" id="switch-cam-btn" onclick="switchCamera()" title="Switch Camera" data-title-key="switchCamera" style="display: none;">
+                <i class="fa-solid fa-rotate"></i>
+            </button>
+        </div>
+        <div class="control-group-center">
+            <button id="snap-btn" title="Take Photo" data-title-key="snap"></button>
+        </div>
+        <div class="control-group-right">
+            <button class="icon-btn" onclick="toggleOverlayMenu()" title="Filters" data-title-key="filters">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+            <button class="icon-btn" onclick="toggleSettingsMenu()" title="Settings" data-title-key="settings">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <button class="icon-btn" onclick="toggleFullScreen()" title="Full Screen" data-title-key="fullscreen">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div id="upload-status" class="text-center text-muted small" style="position:absolute; bottom: 5px; width: 100%; pointer-events: none;"></div>
+
+    <!-- Modals -->
+    <div id="overlay-menu" class="modal-overlay">
+        <div class="menu-header">
+            <h5 class="menu-title" data-text-key="selectOverlay">Select Overlay</h5>
+            <button class="menu-close-btn" onclick="toggleOverlayMenu()">&times;</button>
+        </div>
+        <div class="overlay-grid" id="overlay-grid"></div>
+    </div>
+
+    <div id="gallery-menu" class="modal-overlay">
+        <div class="menu-header">
+            <h5 class="menu-title" data-text-key="galleryTitle">Gallery</h5>
+            <button class="menu-close-btn" onclick="toggleGallery()">&times;</button>
+        </div>
+        <div class="gallery-grid" id="gallery-grid">
+            <p class="text-center text-muted w-100 mt-3" data-text-key="loading">Loading...</p>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div id="settings-menu" class="modal-overlay">
+        <div class="menu-header">
+            <h5 class="menu-title" data-text-key="settings">Settings</h5>
+            <button class="menu-close-btn" onclick="toggleSettingsMenu()">&times;</button>
+        </div>
+        <div class="settings-list">
+            <button class="btn btn-outline-secondary settings-btn" onclick="toggleLanguageMenu()">
+                <span data-text-key="language">Language</span>
+                <i class="fa-solid fa-globe"></i>
+            </button>
+            <button class="btn btn-outline-secondary settings-btn" onclick="toggleDebugMenu()">
+                <span data-text-key="debug">Debug Info</span>
+                <i class="fa-solid fa-bug"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- DEBUG MENU -->
+    <div id="debug-menu" class="modal-overlay">
+        <div class="menu-header">
+            <h5 class="menu-title" data-text-key="debugTitle">System Diagnostics</h5>
+            <button class="menu-close-btn" onclick="toggleDebugMenu()">&times;</button>
+        </div>
+        <div class="debug-content">
+            <ul class="list-group list-group-flush" id="debug-list">
+                <!-- Injected via JS -->
+            </ul>
+        </div>
+    </div>
+
+    <div id="language-menu" class="modal-overlay">
+        <div class="menu-header">
+            <h5 class="menu-title" data-text-key="selectLanguage">Select Language</h5>
+            <button class="menu-close-btn" onclick="toggleLanguageMenu()">&times;</button>
+        </div>
+        <div class="language-list" id="language-list">
+            <!-- Language buttons injected via JS -->
+        </div>
+    </div>
+
+    <div id="lightbox">
+        <span id="lightbox-close" title="Close">&times;</span>
+        <img id="lightbox-image" src="" alt="Full-screen image">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Load Translations FIRST -->
+    <script src="translations.js"></script>
+    <!-- Load Main App Logic SECOND -->
+    <script src="app.js"></script>
+</body>
+</html>

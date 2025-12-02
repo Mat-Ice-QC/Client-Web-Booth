@@ -1,0 +1,88 @@
+# This configuration assumes:
+# 1. Your Node.js server is listening on port 3000 (http://127.0.0.1:3000).
+# 2. Your project files are located in /var/www/html (Update 'root' if different).
+# 3. Your SSL certificate files are located in /etc/nginx/ssl/.
+
+# --- 1. HTTP to HTTPS Redirection ---
+server {
+    listen 80;
+    server_name 192.168.2.243;
+    return 301 https://$host$request_uri;
+}
+
+# --- 2. SECURE HTTPS Server (Main App) ---
+server {
+    listen 443 ssl;
+    server_name 192.168.2.243; 
+
+    # --- SSL/TLS Configuration ---
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # --- STATIC FILES (Frontend) ---
+    root /var/www/html; 
+    index index.html;
+
+    # Default location for frontend files
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    
+    # --- API PROXY ENDPOINTS (Backend on Node.js) ---
+
+    # 1. Gallery Data List
+    location /gallery-data {
+        proxy_pass http://127.0.0.1:3000/gallery-data;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # 2. NEW: Overlays List (For the Pancake Menu)
+    location /overlays-list {
+        proxy_pass http://127.0.0.1:3000/overlays-list;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # 3. Handle Image Uploads
+    location /upload {
+        proxy_pass http://127.0.0.1:3000/upload;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Increase limit for high-res images
+        proxy_read_timeout 300s;
+        client_max_body_size 50M; 
+    }
+    
+    # 4. Serve User Uploaded Images (Proxy to Node)
+    location /uploads {
+        proxy_pass http://127.0.0.1:3000/uploads;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # 5. NEW: Serve Overlay Images (Proxy to Node)
+    location /overlays {
+        proxy_pass http://127.0.0.1:3000/overlays;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # 6. NEW: Debug IP Endpoint (Proxy to Node)
+    location /my-ip {
+        proxy_pass http://127.0.0.1:3000/my-ip;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # Logging
+    error_log /var/log/nginx/webcam_error.log;
+    access_log /var/log/nginx/webcam_access.log;
+}
