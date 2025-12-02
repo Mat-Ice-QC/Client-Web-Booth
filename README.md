@@ -11,6 +11,7 @@ Unlike traditional photobooth software that relies on a single high-end camera c
 > * **No Authentication:** Anyone with access to the URL can upload images and view the gallery.
 > * **No Input Sanitization:** While basic checks exist, it is not hardened against malicious file uploads.
 > * **Ephemeral Use Only:** Do not run this on a public-facing server or leave it running permanently on your network.
+> * **I am not a good coder:** I studied networking so the code might be a bit broken or weird  
 >
 > **Use at your own risk.** Ensure it is run behind a firewall and only accessible to trusted guests.
 
@@ -103,7 +104,6 @@ client-web-booth/
 ├── uploads/                   #  Captured photos are saved here
 │   └── thumbnails/            #  Generated low-res thumbnails
 ├── app.js                     #  Frontend logic (Camera, Canvas, Uploads)
-├── default                    #  Nginx configuration reference
 ├── index.html                 #  Main application page
 ├── index-style.css            #  Stylesheet
 ├── package.json               #  Node dependencies & scripts
@@ -114,7 +114,6 @@ client-web-booth/
 ## Todo & Roadmap
 
 - [ ] Docker Support: Containerize the application (Node + Nginx) for one-click deployment.
-- [ ] Add an admin panel to delete photos from the gallery.
 - [ ] Add option to download all photos as a ZIP.
 - [ ] Make the app completely offline by downloading dependencies on the server on setup
 
