@@ -28,7 +28,7 @@ I looked for existing self-hosted solutions, but almost all of them were designe
 * **Live Gallery:** Users can view a shared gallery of photos taken during the session.
 * **Overlays & Filters:** Supports applying transparent PNG overlays (frames, branding) to photos.
 * **Multi-Language Support:** Includes English, Spanish, French, Quebecois, German, and Japanese.
-* **Privacy Focused:** No external cloud dependencies; runs entirely on your local network (dependant on some statis assets on the web).
+* **Privacy Focused:** No external cloud dependencies; runs entirely on your local network (dependant on some static assets on the web).
 
 ## Architecture & Topology
 
