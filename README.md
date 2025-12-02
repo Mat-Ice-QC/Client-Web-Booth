@@ -14,13 +14,13 @@ Unlike traditional photobooth software that relies on a single high-end camera c
 >
 > **Use at your own risk.** Ensure it is run behind a firewall and only accessible to trusted guests.
 
-## 💡 Motivation
+## Motivation
 
 I wanted to set up a photobooth where clients could connect via WiFi or LAN and take pictures, but I needed the photos to remain on my server rather than just staying on their phones.
 
 I looked for existing self-hosted solutions, but almost all of them were designed to use the server's webcam (like a traditional booth). I couldn't find anything that leveraged the client's webcam while centralizing the storage. So, I built this quickly to fill that gap.
 
-## 🌟 Features
+## Features
 
 * **Client-Side Capture:** Uses the high-quality rear or front cameras of user devices (iOS/Android supported on chromium based browsers).
 * **Centralized Storage:** All photos are automatically uploaded and saved to the host server.
